@@ -1,11 +1,12 @@
 services:
   ctfd:
-    build: .
+    image: ctfd/ctfd:latest
     user: root
     restart: always
     ports:
       - "8000:8000"
     environment:
+      - SECRET_KEY=NIMG8CROpUvOv4opqHLdTg6kHuRqwAgI
       - UPLOAD_FOLDER=/var/uploads
       - REDIS_URL=redis://cache:6379
       - WORKERS=1
@@ -23,22 +24,6 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-#  db:
-#    image: mariadb:10.11
-#    restart: always
-#    environment:
-#      - MARIADB_ROOT_PASSWORD=ctfd
-#      - MARIADB_USER=ctfd
-#      - MARIADB_PASSWORD=ctfd
-#      - MARIADB_DATABASE=ctfd
-#      - MARIADB_AUTO_UPGRADE=1
-#    volumes:
-#      - .data/mysql:/var/lib/mysql
-#    networks:
-#        internal:
-#    # This command is required to set important mariadb defaults
-#    command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --wait_timeout=28800, --log-warnings=0]
-
   cache:
     image: redis:4
     restart: always
@@ -51,3 +36,4 @@ networks:
     default:
     internal:
         internal: true
+
